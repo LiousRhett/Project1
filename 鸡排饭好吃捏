@@ -1,0 +1,32 @@
+①requirements.txt:
+自动生成: pip freeze >requirements.txt
+使用：    pip install -r requirements.txt
+
+②git相关操作
+commit：提交更改后的代码到本地仓库
+pull：从远程仓库拉取别人的更改到本地仓库
+push：将本地仓库内容提交到远程仓库，提供给所有编写人员
+
+每次提交的顺序：
+commit ->pull -> push(from 'orign')
+（一定一定不要还没有pull就push了，那样的话远程仓库里的代码就寄了，确保pull后显示nothing to update之后再进行push到远程仓库的操作，无数次血的教训！！！）
+
+tips:
+在每次进行代码更改前都可以进行一次pull，将近期团队进行的更改及时更新到本地
+
+注意事项：
+以上按钮位置将鼠标放在目录里的项目名称处，右键选中team里可以看到
+
+在commit时需要填写Commit Message，这一栏就是你本次提交的信息，比如说本次更改的内容是你对管理员的界面的更改，就可以填写“管理员界面更改”
+
+③《数据库相关操作》
+
+#必须要在command prompt里进行下述操作
+#启动flask shell的必要三步骤
+>>> set FLASK_APP=manage.py
+>>> set FLASK_ENV=development
+>>> flask shell
+
+#重置数据库（仅在需要时进行该操作）：删除data.sqlite文件，再在右侧的数据库里移除所有数据库确保空
+>>> from YourEcharts import db
+>>> db.create_all()  #等一会之后就会创建出data.sqlite文件， 双击后会展开配置， 双击测试链接， 再点击应用，几秒钟后再点击确定， 展开数据库检查是否成功导入
