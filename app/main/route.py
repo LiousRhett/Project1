@@ -1,12 +1,9 @@
-import pywhatkit as kit
-
-from flask import Flask, request
+from flask import Flask, request, current_app
 
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 
-# 初始化 Flask 应用
-app = Flask(__name__)
+from . import main
 
 # 预设关键词和回复
 responses = {
@@ -15,15 +12,10 @@ responses = {
     "bye": "Goodbye! Have a great day!"
 }
 
-# Twilio 账户信息
-ACCOUNT_SID = 'AC3a2a866f096ace58342aba574d30cdee'
-AUTH_TOKEN = "[AuthToken]"
-TWILIO_WHATSAPP_NUMBER = "whatsapp:+8613075581109"
-
-client = Client(ACCOUNT_SID, AUTH_TOKEN)
+client = Client(current_app.config['ACCOUNT_SID'], current_app.config['AUTH_TOKEN'])
 
 # 接收和回复 WhatsApp 消息
-@app.route("/webhook", methods=["POST"])
+@main.route("/webhook", methods=["POST"])
 def webhook():
     # 获取用户消息
     incoming_msg = request.form.get("Body", "").lower()
@@ -42,4 +34,3 @@ def webhook():
     resp = MessagingResponse()
     resp.message(response_msg)
     return str(resp)
-
