@@ -5,16 +5,18 @@ from fastapi import FastAPI
 from config import config
 
 FastAPI = FastAPI()
-client = Client(current_app.config["ACCOUNT_SID"], current_app.congfig["AUTH_TOKEN"])
 
 def create_app(config_name):
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    
+    with app.app_context():
+        app.config.from_object(config[config_name])
 
-    FastAPI.init_app(app)
-    client.init_app(app)
+        FastAPI.init_app(app)
+        client = Client(current_app.config["ACCOUNT_SID"], current_app.congfig["AUTH_TOKEN"])
+        client.init_app(app)
 
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
 
     return app
